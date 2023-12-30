@@ -1,0 +1,639 @@
+/* body {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    background-color: white;
+} */
+
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+.notosanskr * {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+    body {
+        padding: 0;
+        margin: 0;
+        background-color: #F1F3F8;
+        font-family: 'Noto Sans KR';
+    }
+
+    #top {
+        height: 100px;
+        width: 100%;
+        background-color: #040c37;
+        position: relative;
+    }
+
+    #top a {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    #top a img {
+        height: 60px;
+    }
+
+    .bookshelf {
+        /* min-width: 480px; */
+        /* height: 600px; */
+        /* margin: 0 auto; */
+        /* padding: 100px 200px; */
+        background-color: white;
+        /* align-items: center; */
+        justify-content: center;
+        /*border: 1px solid lightgray;*/
+        display: flex ;
+        box-sizing: border-box;
+        padding-top: 3vw;
+    }
+    .bookSet{
+        display: flex;
+        justify-content: space-between;
+        box-sizing: border-box;
+        width: 54vw;
+        height: 29vw;
+        position: relative;
+    }
+    .bookCard {
+        /* width: 70vw; */
+        display: flex;
+        /* justify-content: space-between; */
+        box-sizing: border-box;
+        width: 22vw;
+        padding: 0;
+        margin: 0;
+    }
+
+    .bookContent{
+        width: 29vw;
+        /* overflow: hidden; */
+        font-size: 1.3vw;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 3vw;
+    }
+
+    #Ddescription{
+        width: 100%;
+        /* overflow: hidden; */
+        font-size: 1.3vw;
+    }
+
+    .bookImage {
+        /* min-height: 210px;
+        max-width: 400px;
+        max-height: 600px; */
+        width: 22vw;
+        height: 28vw;
+
+        /* margin-top: 45px;
+        margin-left: 20px;
+        margin-right: 20px; */
+
+        /*top: 200px+30vw;
+        left: 100px+30vw;*/
+        /* border: 1px solid grey; */
+        background-color: white;
+        display: inline-block;
+        object-fit: cover;
+        /*position: absolute;*/
+        /* border: 1px solid red; */
+        margin-right: 2vw;
+        position: relative;
+    }
+
+    .bookImage>img {
+        width: 22vw;
+        height: 29vw;
+        object-fit: fill;
+        overflow: clip;
+        /* border: black 4px solid; */
+    }
+
+    .bookTitle {
+        font-size: 1.7vw;
+        /* overflow: hidden; */
+        margin-bottom: 1vw;
+        height: fit-content;
+        font-weight: 700;
+    }
+
+    .bookTitle>p {
+        font-weight: 600;
+        margin: 0;
+        width: 27vw;
+    }
+    /* .bookTitle>img {
+        width: 60px;
+        height: 60px;
+        margin-top: 20px;
+        border: 5px orange;
+    } */
+
+    .bookBlock {
+        display: flex;
+        flex-direction: column;
+        /* margin: 30px; */
+        /* justify-content: center; */
+        margin-left: 2vw;
+        height: 29vw;
+        overflow: hidden;
+}
+
+
+
+    /* table,
+    th,
+    td {
+        border: 0px solid black;
+        border-collapse: collapse;
+        font-size: 15pt;
+        text-align: left;
+    }
+
+    th,
+    td {
+        padding: 10px 15px;
+    } */
+
+    .subTitle {
+        min-width: 90px;
+    }
+
+    /* tr {
+        max-height: 50px;
+        overflow: hidden;
+    } */
+
+    .subDes {
+        max-height: 50px;
+        overflow: hidden;
+    }
+
+    .bookTable {
+        padding: 50px;
+    }
+
+    /* hr {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        z-index: 2;
+    } */
+    .hr{
+        height: 1px;
+        width: 100%;
+        /* margin: auto; */
+        margin: 1vw 0;
+        background-color: gray;
+    }
+
+    .bookDes {
+        /* margin: 10px; */
+        /* font-size: 15pt; */
+        /* min-width: 216px; */
+        /* min-height: 216px; */
+        overflow: hidden;
+    }
+
+    /* .thumbButton {
+        z-index: 10;
+        position: relative;
+    } */
+
+    .thumbButton>button>img {
+        max-width: 3vw;
+        max-height: 3vw;
+        padding: 0 5vw;
+        /* border: 1px solid; */
+        /* box-shadow: 1px 1px 1px 1px #808080ad; */
+    }
+
+    button#like{
+        box-shadow: 1px 1px 1px 1px #808080ad;
+    }
+    button.bad{
+        box-shadow: 1px 1px 1px 1px #808080ad;
+    }
+    button#like:hover{
+        box-shadow: inset 1px 1px 1px 1px #808080ad;
+    }
+    button.bad:hover{
+        box-shadow: inset 1px 1px 1px 1px #808080ad;
+    }
+    .likeA,.badA{
+        box-shadow: inset 1px 1px 1px 1px #808080ad;
+    }
+
+    .thumbButton {
+        display: flex;
+        justify-content: center;
+        width: 96%;
+        /* border-top: solid 4px; */
+        /* position: absolute; */
+        bottom: -1.7vw;
+        height: 4vw;
+        margin-top: 1vw;
+    }
+
+    .thumbButton>button {
+        border: 0;
+        outline: none;
+        background-color: inherit;
+    }
+    .thumbButton>button :hover{
+        cursor: pointer;
+    }
+
+    .likeA {
+        display: none;
+    }
+
+    .badA {
+        display: none;
+    }
+
+    .listBox {
+        background-color: white;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        /* width: 100vh; */
+        /* padding-bottom: 5vh; */
+        /* margin-bottom: 5vh; */
+
+    }
+
+    .listText {
+        width: 70vw;
+        font-weight: 600;
+        font-size: 20px;
+        padding-top: 3vw;
+
+    }
+    .itemListSet{
+        display: flex;
+        /* justify-content: space-between; */
+        /* flex-wrap: wrap; */
+        padding-bottom: 5vh;
+
+    }
+    .itemList {
+        display: flex;
+        width: 70vw;
+        /* border: 1px solid; */
+
+
+    }
+
+    .item {
+        width: 13vw;
+        margin-right: 2vw;
+        box-sizing: border-box;
+    }
+
+    .coverBox {
+        width: 13vw;
+        height: 20vw;
+        background-color: white;
+        display: flex;
+        align-items:end;
+        /* border: #b2b4b7 solid; */
+
+    }
+
+    .coverBox img {
+        width: 13vw;
+        height: 19.5vw;
+    }
+
+    a {
+        text-decoration: none;
+        color: black; 
+    }
+    a:visited { color: black; }
+
+    .bookComment {
+        display: none;
+        /*width: 800px;
+        margin: 20px;
+        padding: 50px;
+        position: relative;
+        background-color: rgb(243, 243, 243);
+        border: 1px solid lightgray;
+        border-radius: 16px;
+        flex-direction: column;*/
+    }
+
+    /*
+    .myComment > p {
+        margin-left: 20px;
+        font-size: 12pt;
+    }
+    .initComm {
+        margin: 20px;
+        width: 600px;
+        height: 100px;
+        display: block;
+    }
+    .btn {
+        display: block;
+        margin-left: 20px;
+    }*/
+
+    .comment {
+        width: 44vw;
+        display: inline-block;
+        min-height: 30px;
+        max-height: fit-content;
+        margin-left: 50px;
+        line-height: 30px;
+        word-break: break-all; /* 추가 */
+    }
+    .rcomment{
+        width: 40vw;
+        display: inline-block;
+        min-height: 30px;
+        max-height: fit-content;
+        margin-left: 50px;
+        line-height: 30px;
+        word-break: break-all; /* 추가 */
+    }
+
+    .morevertToggle {
+        
+    }
+
+    .box-show {
+        width: 75px;
+        height: 60px;
+        display: none;
+        position: absolute;
+        top: 26px;
+        right: 10px;
+        /* border: 1px black solid; */
+        z-index: 100;
+        flex-wrap: wrap;
+        justify-content: center;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 1px 1px 1px 1px #80808045;
+    }
+
+    .comment_inner_wrapper {
+        width: 54vw;
+        display: inline-block;
+    }
+
+    .comment-wrapper {
+        position: relative;
+        /* border: 1px solid black; */
+        width: 54vw;
+        /* height: 100px; */
+        height: fit-content;
+        margin-top: 3vh;
+        padding-bottom: 3vh;
+    }
+
+
+
+    .morevert {
+        position: absolute;
+        right: 0;
+        top:0;
+    }
+
+    .editBox-content {
+        /* width: 98%;
+        height: 100%; */
+        width: calc(100% - 90px);
+        right: 0;
+        position: absolute;
+        height: 13vh;
+        background-color: #ffffff;
+        border: 2px solid #b2b4b7;
+        padding-left: 20px;
+        padding-top: 24px;
+        padding: 24px 20px 0 20px;
+    }
+
+    .inputBox {
+        height: 17vh;
+    }
+
+    .editBox-id {
+        position: absolute;
+        padding-top: 20px;
+        padding-left: 70px;
+        z-index: 100;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .reply-comment .editBox-id{
+        padding-left:30px;
+    }
+
+    .edit-btn {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        margin-bottom: 5vh;
+        margin-right: 2vh;
+        background-color: transparent;
+        border: none;
+        font-weight: 700;
+        color: #9c9c9c;
+        width: 8vh;
+    }
+    .edit-btn:hover{
+        color:#040c37;
+    }
+
+    .editBtn{
+        background-color: transparent;
+        border: 0;
+        cursor:pointer;
+        width: 100%;
+        padding:1px;
+    }
+    .editBtn:hover{
+        background-color: #d7d7d7;
+    }
+    .applyBtn{
+        background-color: #f1f3f8;
+        border:none;
+        color:gray;
+        cursor: pointer;
+        padding:0;
+        margin-left: 3vh;
+    }
+    .replyToggle{
+        display: none;
+    }
+    .comment-wrapper.reply-comment{
+        width: calc(54vw - 40px);
+        padding-left: 40px;
+    }
+
+    div.comment-wrapper:not(:last-child) {
+        /* 스타일 적용 */
+        border-bottom: 2px solid #b2b4b7;
+      }
+
+    #commentForm{
+        margin-top: 3vh;
+        width:54vw;
+        position:relative;
+        left:50%;
+        transform: translateX(-50%);
+        height: 22vh;
+
+    }
+
+    #comment_id{
+        width: calc(100% - 26px);
+        position: absolute;
+        height: 1vh;
+        background-color: transparent;
+        text-align: left;
+        /* font-size: 18px; */
+        z-index: 100;
+        padding-left: 20px;
+        border: none;
+        top: 10px;
+        left: 1px;
+        padding-top: 17px;
+        font-weight: 600;
+    }    
+    
+    #comment_content{
+        width: calc(100% - 25px);
+        right: 0;
+        position: absolute;
+        height: 12vh;
+        background-color: #f1f3f8;
+        border: 2px solid #b2b4b7;
+        padding-left: 20px;
+        padding-top: 24px;
+    }
+
+    #commentForm button{
+        position: absolute;
+        bottom: 5px;
+        width: 100%;
+        height: 5vh;
+        border: none;
+        background-color: #d7d7d7;
+        color: black;
+    }
+
+    #commentForm button:hover{
+        background-color: #040c37;
+        color:white;
+        font-weight: 600;
+    }
+
+    #comment-box{
+        margin-bottom: 50px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .default-message{
+        text-align: center;
+        height: 250px;
+        line-height: 250px;
+    }
+    .comment_id{
+        font-weight: 600x;
+    }
+    .comment-profile{
+        width: 5vh;
+        height: 5vh;
+        border-radius: 50%;
+        position: absolute;
+        top: 5px;
+    }
+
+    .bMarkSet > button {
+        border: 0;
+        outline: none;
+        background-color: inherit;
+    }
+    .bMarkSet > button :hover {
+        cursor: pointer;
+    }
+    
+    .bMarkSet > button > img {
+        /* width: 40px; */
+        /* height: 40px; */
+        position: absolute;
+        top: 0;
+        right: 2vw;
+        width: 3.2vw;
+    }
+
+    .bMarkA {
+        display: none;
+    }
+
+    
+
+    @media screen and (max-width : 768px) {
+        #top a img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin-left: 0;
+            height: 50px;
+        }
+        #comment-box{
+            font-size:12px;
+        }
+        .comment {
+            width: 44vw;
+            display: inline-block;
+            min-height: 20px;
+            max-height: fit-content;
+            margin-left: 50px;
+            line-height: 20px;
+            word-break: break-all;
+        }
+        #commentForm {
+            height: 18vh;
+        }
+        #comment_id{
+            font-size:12px
+        }
+        #comment_content{
+            height: 8vh;
+        }
+        .editBox-content {
+            padding: 0px 20px 0 20px;
+        }
+        .edit-btn {
+            margin-bottom: 5vh;
+            margin-right: 2vh;
+            width: 6vh;
+        }
+        .inputBox {
+            height: 14vh;
+        }
+        .default-message {
+            text-align: center;
+            height: 250px;
+            line-height: 250px;
+            font-size:12px;
+        }
+    }
+
+  
+    

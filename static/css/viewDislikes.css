@@ -1,0 +1,100 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+.notosanskr * { 
+ font-family: 'Noto Sans KR', sans-serif;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: 'Noto Sans KR';
+}
+body{
+    padding:0;
+    margin:0;
+    background-color: #F1F3F8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#top{
+    height: 100px;
+    width:100%;
+    background-color: #040c37;
+    position:relative;
+}
+
+button{
+    background-color: #F1F3F8;
+    padding: 4px 8px 4px 8px;
+    font-size: 16px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.button-set{
+    margin-left: 8px;
+}
+
+.line{
+    margin-left: 10px;
+    width: 80vw;
+    height: 1px;
+    background-color: #050505;
+    margin-bottom: 100px;
+}
+
+.double-line{
+    position: absolute;
+    left: 10vw;
+    width: 5vw;
+    height: 3px;
+    background-color: #050505;
+}
+
+.container{
+    position: absolute;
+    top: 180px;
+    left: 140px;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    height: fit-content;
+    justify-content: space-between;
+}
+
+.book{
+    min-width: 200px;
+    max-width: 200px;
+    min-height: 240px;
+    max-height: 240px;
+    border: 1px solid lightgrey;
+}
+
+.book-container{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 80%;
+    margin-left: 80px;
+}
+
+.book-set{
+    min-width: 200px;
+    max-width: 200px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.book-title{
+    margin-top: 8px;
+}
+
+#dislikes{
+    border-bottom: 2px solid black;
+}

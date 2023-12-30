@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/detail.css">
+    <title>BOOK MOMENTO</title>
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+		<div id="top">
+            <a href='/'><img src="../static/img/logo.png"></a>
+
+        </div>
+    <!-- <h1>상세페이지</h1> -->
+    <div class="bookshelf">
+        <div class="bookSet">
+                <div class="bookImage" id="bookCover">
+                    <img src="${detailItem.cover}" id="bookCoverImg">
+                     <div class="bMarkSet">
+                        <button class="bMark">
+                            <img src="/static/img/bookmark-white.png" id="bookMarkImg" class="bookMarkPng">
+                        </button>
+                        <button class="bMarkA">
+                            <img src="/static/img/bookmark_fill.png" id="bookMarkImg" class="bookMarkPng">
+                        </button>
+                    </div>
+                </div>
+            <div class="bookBlock" id="block">
+                <div class="bookTitle" id="dTitle">${detailItem.title}</div>
+                <div id="dAuthor" class ="bookContent">지은이 | ${detailItem.author}</div>
+                <div id="dPub" class ="bookContent">출판사 | ${detailItem.publisher}</div>
+                <div id="dIsbn" class ="bookContent">ISBN | ${detailItem.isbn}</div>
+                <div class="thumbButton">
+                    <button class="like" id="like">
+                        <img src="/static/img/free-icon-thumb-up-7542641.png" class="thumbUp" id="good">
+                    </button>
+                    <button class="likeA">
+                        <img src="/static/img/free-icon-thumb-up-fill.png" class="thumbUp" id="good">
+                    </button>
+                
+                    <button class="bad">
+                        <img src="/static/img/free-icon-thumb-down-8113313.png" class="thumbDown" id="bad">
+                    </button>
+                    <button class="badA">
+                        <img src="/static/img/free-icon-thumb-down-fill.png" class="thumbDown" id="bad">
+                    </button>
+                </div>    
+
+                <div class="hr"></div>
+                <!-- <hr> -->
+                <div class="bookDes" id="description">
+                    <div id="Ddescription">${detailItem.description}</div>
+                </div>
+                
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+    <div class="listBox">
+        <div class="listText">
+            <p class="ptag"></p>
+        </div>
+        <div class="itemListSet">
+            <div class="itemList"></div>
+        </div>
+    </div>
+
+    <div>
+        <form name="comment-form" id="commentForm">
+            <!-- <div class="comment-profile"></div> -->
+            <input type="text" id="comment_id" name="u_id" placeholder="id" disabled>
+            <input type="text" id="comment_content" name="c_content" placeholder="댓글을 남겨보세요"><br>
+            <button type="button" onclick="addComment();">댓글 입력하기</button>
+        </form>
+        <div id="comment-box"></div>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const isbn = urlParams.get('isbn');
+        const idFor = '<%= idFor %>';
+        const isLogin = '<%= isLogin %>';
+
+
+        console.log(isbn); // 출력: 9788954699075
+        document.addEventListener("DOMContentLoaded", () => {
+            loadView();
+            const buttons = document.querySelectorAll('.bookContent#Ddescription');
+            // const div = button.querySelector('div');
+            if (buttons.scrollHeight > buttons.clientHeight) {
+                buttons.classList.add('ellipsis');
+             }
+        });
+
+
+        function loadView() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const isbn = urlParams.get('isbn');
+            console.log(isbn); // 출력: 9788954699075
+
+
+            $.ajax({
+                method: 'get',
+                url: '/getDetail',
+                data: {
+                    ItemId: `${isbn}`,
+                }
+            }).done((res) => {
+                console.log('알라딘 brendnew res >', res);
+                const detailItem = res.items[0];
+                const resultBox = document.getElementById('bookResult');
+
+                console.log(detailItem);
+                
+                const bookCoverImg = document.getElementById('bookCoverImg');
+                bookCoverImg.src = `${detailItem.cover}`;
+
+                const dTitle = document.getElementById('dTitle');
+                dTitle.textContent = `${detailItem.title}`;
+
+                const dAuthor = document.getElementById('dAuthor');
+                dAuthor.textContent = `지은이 | ${detailItem.author}`;
+
+                const dPub = document.getElementById('dPub');
+                dPub.textContent = `출판사 | ${detailItem.publisher}`;
+
+                const dIsbn = document.getElementById('dIsbn');
+                dIsbn.textContent = `isbn | ${detailItem.isbn}`;
+
+                const Ddescription = document.getElementById('Ddescription');
+                Ddescription.textContent = `${detailItem.description}`;
+
+                const form = document.forms['comment-form'];
+                const commentForm = document.querySelector('#commentForm');
+                form.u_id.value = res.id;
+
+                if(res.id==false){
+                    commentForm.style.display='none';
+                }else{
+                    commentForm.style.display='block';
+                }
+                
+            });
+
+            axios({
+                method: 'post',
+                url: '/getComments',
+                data: {
+                    c_isbn: `${isbn}`,
+                },
+            }).then((res) => {
+                console.log('getComments res.data > ', res.data)
+                const commentItem = res.data.comments;
+                const id = res.data.id;
+
+                const form = document.forms['comment-form'];
+                const commentBox = document.getElementById('comment-box');
+
+                if(commentItem.length ==0){
+                    removeAllChildren(commentBox);
+                    commentBox.innerHTML='<div class="default-message">작성한 댓글이 없습니다. 로그인 후 사용해주세요.<div>'
+                }else{
+                    const parentComments = commentItem.filter(item => !item.parent_c_no);
+                    const childComments = commentItem.filter(item => item.parent_c_no);
+
+                    parentComments.forEach(i => {
+                        console.log(i.User.u_profile);
+                        let userProfile ='';
+                        if(`${i.User.u_profile}`=='null'){
+                            userProfile =`../static/img/default-profile.png`;
+                        }else{
+                            userProfile = `${i.User.u_profile}`;
+                        }
+
+                        let checkUser ='';
+                        if (id == `${i.u_id}`){
+                            checkUser=`/mypage`;
+                        }else{
+                            checkUser=`/otherpage/:${i.u_id}`;
+                        }
+                        // 부모 댓글 출력
+                        const html = `
+                            <div id="div_${i.c_no}" class="comment-wrapper">
+                                <div class="comment_inner_wrapper">
+                                    <a href="${checkUser}"><img class="comment-profile" src="${userProfile}"></a>
+                                    <a href="${checkUser}"><div class="comment_id comment">${i.u_id}</div></a>
+                                    <div class="comment_content comment">${i.c_content}</div>
+                                    <div class="comment_date comment">${i.c_date}
+                                        <button type="button" class="applyBtn" onclick="replyToggle(${i.c_no},${i.c_no},'${i.u_id}','${id}');">답글쓰기</button>    
+                                    </div>
+                                   
+                                </div>
+                                <img id ="morevert_${i.c_no}" class="morevert" src="../static/img/morevert.png">
+                            </div>
+                        `;
+                        commentBox.insertAdjacentHTML('beforeend', html);
+
+                        // 대댓글 출력
+                        const parentCommentChildren = childComments.filter(childComment => childComment.parent_c_no === i.c_no);
+                        // console.log('childComments',childComments);
+                        // console.log('parentCommentChildren',parentCommentChildren);
+                        parentCommentChildren.forEach(childComment => {
+                            // console.log('childComment > ',childComment);
+                            let childUserProfile ='';
+                            if(`${childComment.User.u_profile}`=='null'){
+                                childUserProfile =`../static/img/default-profile.png`;
+                            }else{
+                                childUserProfile = `${childComment.User.u_profile}`;
+                            }
+
+                            let childCheckUser ='';
+                            if (id == `${childComment.u_id}`){
+                                childCheckUser=`/mypage`;
+                            }else{
+                                childCheckUser=`/otherpage/:${childComment.u_id}`;
+                            }
+                            const childHtml = `
+                            <div id="div_${childComment.c_no}" class="comment-wrapper reply-comment">
+                                <div class="comment_inner_wrapper">
+                                    <a href="${childCheckUser}"><img class="comment-profile" src="${childUserProfile}"></a>
+                                        <a href="${childCheckUser}"><div class="comment_id comment">${childComment.u_id}</div></a>
+                                        <div class="comment_content rcomment"><span style="font-weight:bold;">${i.u_id}</span>  ${childComment.c_content}</div>
+                                        <div class="comment_date comment">${childComment.c_date}
+                                          <button type="button" class="applyBtn" id="replyBtn" onclick="replyToggle(${i.c_no},${childComment.c_no},'${childComment.u_id}','${id}');">답글쓰기</button>
+                                        </div>
+                                    </div>
+                                    <img id ="morevert_${childComment.c_no}" class="morevert" src="../static/img/morevert.png">
+                                </div>
+                            `;
+                            commentBox.insertAdjacentHTML('beforeend', childHtml);
+
+
+                            const btnBox = document.createElement('div');
+                            const btnHtml = `<button type="button" class="editBtn" onclick="editBox(${childComment.c_no},'${childComment.u_id}','${childComment.c_content}');" >수정</button><br>
+                                <button type="button" class="editBtn"  onclick="deleteComment(${childComment.c_no})">삭제</button>`
+                            btnBox.insertAdjacentHTML('beforeend', btnHtml);
+                            btnBox.classList.add('box-show');
+
+                            const toggleBtn = document.querySelector(`#morevert_${childComment.c_no}`);
+                            toggleBtn.after(btnBox);
+                            toggleBtn.addEventListener('click', () => {
+                                editToggle(`${childComment.c_no}`);
+                            })
+                        });
+
+
+                        // morevert 버튼을 눌렀을 때 나올 버튼 박스
+                        const btnBox = document.createElement('div');
+                        const btnHtml = `<button type="button" class="editBtn" onclick="editBox(${i.c_no},'${i.u_id}','${i.c_content}');" >수정</button><br>
+                            <button type="button" class="editBtn"  onclick="deleteComment(${i.c_no})">삭제</button>`
+                        btnBox.insertAdjacentHTML('beforeend', btnHtml);
+                        btnBox.classList.add('box-show');
+
+                        const toggleBtn = document.querySelector(`#morevert_${i.c_no}`);
+                        toggleBtn.after(btnBox);
+                        toggleBtn.addEventListener('click', () => {
+                            editToggle(`${i.c_no}`);
+                        })
+                        form.reset();
+
+                    });
+                }
+                
+            });
+    
+    };
+
+
+
+
+        function editToggle(no) {
+            const toggleBtn = document.querySelector(`#morevert_${no}`);
+            let btnShow = document.querySelector(`#morevert_${no} + .box-show`);
+            // const btnShow = document.querySelector('.box-show');
+            toggleBtn.classList.toggle('morevertToggle');
+            if (toggleBtn.classList.contains('morevertToggle')) {
+                btnShow.style.display = 'flex';
+            } else {
+                btnShow.style.display = 'none';
+            }
+        }
+
+        function addComment() {
+            console.log('isbn', `${isbn}`);
+            const form = document.forms['comment-form'];
+
+            if(form.c_content.value ==''){
+                alert('댓글을 입력해주세요!');
+            }else{
+                axios({
+                method: 'post',
+                url: '/writeComment',
+                data: {
+                    c_isbn: isbn,
+                    u_id: form.u_id.value,
+                    c_content: form.c_content.value,
+                }
+                }).then((res) => {
+                    console.log('댓글 작성 성공:', res);
+                    const commentBox = document.querySelector('#comment-box');
+                    removeAllChildren(commentBox);
+                    loadView();
+
+                }).catch((error) => {
+                    console.error('댓글 작성 실패:', error);
+                });
+            }
+
+           
+        }
+
+        function editBox(no, id, content) {
+            const originalBox = document.querySelector(`#div_${no}`);
+            removeAllChildren(originalBox);
+            const html = `
+                <div class="editBox-id">${id}</div>
+                <form name="edit-form" class="inputBox">
+                    <input type ="text" name="c_content" value="${content}" class="editBox-content">
+                    <button type="button" onclick="editComment(${no})" class="edit-btn">확인</button>
+                </form>
+                `
+            originalBox.insertAdjacentHTML('beforeend', html);
+            // originalBox.appendChild(inputBox);
+        }
+
+        function editComment(no) {
+            console.log(no);
+            const form = document.forms['edit-form'];
+            axios({
+                method: 'patch',
+                url: '/updateComment',
+                data: {
+                    c_no: `${no}`,
+                    c_content: form.c_content.value,
+                },
+            }).then((res) => {
+                const commentBox = document.querySelector('#comment-box');
+                // const resultBox = document.querySelector('#bookResult');
+                // removeAllChildren(resultBox);
+                removeAllChildren(commentBox);
+                loadView();
+
+            })
+        }
+
+        function deleteComment(no) {
+            console.log(no);
+            axios({
+                method: 'delete',
+                url: '/deleteComment',
+                data: {
+                    c_no: `${no}`,
+                },
+            }).then((res) => {
+                const commentBox = document.querySelector('#comment-box');
+                // const resultBox = document.querySelector('#bookResult');
+                // removeAllChildren(resultBox);
+                removeAllChildren(commentBox);
+                loadView();
+
+            })
+
+        }
+
+        function removeAllChildren(element) {
+        if (element) {
+            while (element.firstChild) {
+                removeAllChildren(element.firstChild);
+                element.removeChild(element.firstChild);
+            }
+        }
+    }
+
+        
+    function replyToggle(no,replyNo, id,userid) {
+        if (`<%= id%>` == 'false') {
+            alert('로그인 후 사용가능한 기능입니다.');
+        } else {
+            const replyBox = document.querySelector(`#div_${replyNo}`);
+            const existingReplyInput = replyBox.nextElementSibling;
+
+            if (existingReplyInput && existingReplyInput.classList.contains('reply-input')) {
+                // 이미 추가된 경우, 삭제
+                existingReplyInput.remove();
+            } else {
+                // 추가되지 않은 경우, 추가
+                const html = `
+                    <div class="comment-wrapper reply-input">
+                        <div class="editBox-id">${userid}</div>
+                        <form name="reply-form" class="inputBox">
+                            <input type="hidden" name="u_id" value="${userid}">
+                            <input type ="text" name="c_content" placeholder="${id}님께 답글쓰기" class="editBox-content">
+                            <button type="button" onclick="addReply(${no}, '${id}')" class="edit-btn">확인</button>
+                        </form>
+                    </div>
+                `;
+                replyBox.insertAdjacentHTML('afterend', html);
+            }
+        }
+    }
+
+    function addReply(no, id){
+        const form = document.forms['reply-form'];
+        const content = form.c_content.value;
+        console.log(content);
+        if(content==''){
+            alert('댓글을 입력해주세요');
+        }else{
+            axios({
+                method: 'post',
+                url: '/writeReply',
+                data: {
+                    c_isbn: isbn,
+                    u_id: form.u_id.value,
+                    c_content: form.c_content.value,
+                    parent_c_no:no,
+                }
+            }).then((res) => {
+                    console.log('댓글 작성 성공:', res);
+                    const commentBox = document.querySelector('#comment-box');
+                    // const resultBox = document.querySelector('#bookResult');
+                    // removeAllChildren(resultBox);
+                    removeAllChildren(commentBox);
+                    loadView();
+
+                }).catch((error) => {
+                    console.error('댓글 작성 실패:', error);
+                });
+        }
+    }
+    
+    // 좋아요 싫어요 버튼
+    const like = document.querySelector('.like');
+    const likeA = document.querySelector('.likeA');
+    const bad = document.querySelector('.bad');
+    const badA = document.querySelector('.badA');
+
+    // 렌더될 때 좋아요 싫어요 유무 조회
+    (async () => {
+        if(isLogin == 'true') {
+        try {
+            const ratingData = await axios({
+                url: '/ratingData',
+                method: 'get',
+                params: {
+                    b_isbn: isbn,
+                    u_id: idFor
+                }
+            })
+            console.log('이 책에 남긴 평가 데이터>',ratingData.data);
+            if(ratingData.data == 'like') {
+                // alert('like!');
+                like.style.display = 'none';
+                likeA.style.display = 'inline-block';
+                bad.disabled = true; 
+            } else if(ratingData.data == 'bad') {
+                bad.style.display = 'none';
+                badA.style.display = 'inline-block';
+                like.disabled = true;
+            }
+        } catch(err) {
+            console.log(err)
+        }
+    }
+    })();
+
+    // 렌더될 때 좋아요 기반 책 리스트
+    (async () => {
+        try{
+            const otherLikes = await axios({
+                url: '/otherLikes',
+                method: 'get',
+                params: {
+                    b_rating : 'like',
+                    u_id: idFor,
+                    b_isbn: isbn
+                }
+            })
+            console.log(otherLikes);
+            console.log('!!!>', otherLikes.data);
+            const newData = otherLikes.data;
+            // console.log(newData);
+                if(!otherLikes.data.length == 0){
+                    { const ptag = document.querySelector('.ptag');
+                    ptag.innerText = '유저들이 이 책과 함께 좋아한 다른 책'
+
+                        // 받아온 데이터를 forEach문을 사용하여 화면에 표시
+                    newData.forEach(item => {
+                        const itemList = document.querySelector('.itemList');
+                        itemList.innerHTML += `
+                            <div class="item">
+                                <a href="/detailGo?isbn=${item.isbn}">
+                                    <div class="coverBox">
+                                        <img src="${item.cover}">
+                                    </div>
+                                </a>
+                            </div>
+                            `;
+                    });
+                }
+                }
+                    
+        } catch(err) {
+            console.log(err)
+        }
+    }
+    )();
+    
+    // 좋아요 버튼 누를 때 데이터 전송
+    like.addEventListener('click', (e) => {
+        if(isLogin == 'false') {
+            alert('로그인이 필요한 기능입니다!')
+        }
+        else if(isLogin == 'true') {
+            like.style.display = 'none';
+            likeA.style.display = 'inline-block';
+            bad.disabled = true; 
+            // db로 전송
+            // 내용 : 좋아요 누름!
+            // alert('db에 좋아요 평가 전송!')  // 테스트
+            console.log('id, rating >',idFor, "like");
+            axios({
+                url: '/createLike',
+                method: 'post',
+                data: {
+                    b_isbn: isbn,
+                    u_id: idFor,
+                    b_rating : 'like',
+                }
+            })
+        }
+        
+        })
+    
+    // 좋아요 취소
+    likeA.addEventListener('click', (e) => {
+        likeA.style.display = 'none';
+        like.style.display = 'inline-block';
+        bad.disabled = false; 
+        // db로 전송
+        // 내용 : 좋아요 취소!
+        axios({
+                url: '/deleteLike',
+                method: 'delete',
+                data: {
+                    b_isbn: isbn,
+                    u_id: idFor,
+                    b_rating : 'like'
+                }
+            })
+    })
+    
+    // 싫어요
+    bad.addEventListener('click', (e) => {
+        if(isLogin == 'false') {
+            alert('로그인이 필요한 기능입니다!')
+        }
+        else if(isLogin == 'true') {
+            bad.style.display = 'none';
+            badA.style.display = 'inline-block';
+            like.disabled = true; 
+            // db로 전송
+            // 내용 : 싫어요 누름!
+            // alert('db에 싫어요 평가 전송!')
+            axios({
+                url: '/createBad',
+                method: 'post',
+                data: {
+                    b_isbn: isbn,
+                    u_id: idFor,
+                    b_rating : 'bad',
+                }
+            })
+        }
+        })
+
+    // 싫어요 취소
+    badA.addEventListener('click', (e) => {
+        badA.style.display = 'none';
+        bad.style.display = 'inline-block';
+        like.disabled = false; 
+        // db로 전송
+        // 내용 : 싫어요 취소!
+        axios({
+                url: '/deleteBad',
+                method: 'delete',
+                data: {
+                    b_isbn: isbn,
+                    u_id: idFor,
+                    b_rating : 'bad'
+                }
+            })
+        })
+    
+    
+    // 위시 버튼
+    const bMark = document.querySelector('.bMark');
+    const bMarkA = document.querySelector('.bMarkA');
+
+    // 위시 유무 렌더
+    (async () => {
+        if(isLogin == 'true') {
+        try {
+            const wishData = await axios({
+                url: '/wishData',
+                method: 'get',
+                params: {
+                    b_isbn: isbn,
+                    u_id: idFor,
+                    b_wish: 'wish'
+                }
+            })
+            console.log('이 책에 남긴 위시 데이터>',wishData.data);
+            if(wishData.data == 'wish') {
+                // alert('like!');
+                bMark.style.display = 'none';
+                bMarkA.style.display = 'inline-block';
+            } else if(wishData.data == '') {
+            }
+        } catch(err) {
+            console.log(err)
+        }
+    }
+    })();
+
+    // 위시 설정
+    bMark.addEventListener('click', (e) => {
+        if(isLogin == 'false') {
+            alert('로그인이 필요한 기능입니다!')
+        }
+        else if(isLogin == 'true') {
+            bMark.style.display = 'none';
+            bMarkA.style.display = 'inline-block';
+            // alert('db에 위시 평가 전송!')  // 테스트
+            console.log('id, wish >',idFor, "wish");
+            axios({
+                url: '/createWish',
+                method: 'post',
+                data: {
+                    b_isbn: isbn,
+                    u_id: idFor,
+                    b_wish : 'wish',
+                }
+            })
+        }
+
+    });
+
+    // 위시 취소
+    bMarkA.addEventListener('click', (e) => {
+        bMarkA.style.display = 'none';
+        bMark.style.display = 'inline-block';
+        axios({
+                url: '/deleteWish',
+                method: 'delete',
+                data: {
+                    b_isbn: isbn,
+                    u_id: idFor,
+                    b_wish : 'wish'
+                }
+            })
+    });
+    
+    </script>
+</body>
+
+</html>
