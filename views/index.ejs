@@ -80,12 +80,10 @@
 	<footer>
 		<div class="box">
 			<div class="footers">
-				<img src="../static/img/logo.png"
-					style="margin-bottom: 20px" /> <!-- 로고 -->
-				<h3>교보문고(주)</h3>
+				<img src="../static/img/logo.png"/> <!-- 로고 -->
 				<ul>
-					<li>대표이사 : 곽찬혁 | 인천광역시 부평구 열우물로 90 더샵부평센트럴시티 | 사업자등록번호 : 102-81-11670</li>
-					<li>대표전화 : 1544-1900(발신자 부담전화) | FAX : 0502-987-5711(지역번호 공통) | 인천광역시 통신판매업신고번호 : 제 653호 </li>
+					<li>대표이사 : 홍길동 | 인천광역시 부평구 열우물로 90 더샵부평센트럴시티 | 사업자등록번호 : 123-34-56789</li>
+					<li>대표전화 : 1544-1900(발신자 부담전화) | FAX : 123-456-7890(지역번호 공통) | 서울특별시 통신판매업신고번호 : 제 653호 </li>
 				</ul>
 			</div>
 		</div>
@@ -196,7 +194,8 @@
 						</div>`
 					likeResultBox.insertAdjacentHTML('beforeend',html);
 				}else{
-					// console.log('좋아요 res >' , res);
+					console.log('좋아요 res >' , res);
+					console.log('좋아요 res >' , res.length);
 					res.forEach(a => {
 						// console.log('좋아요 a.isbn > ',a.isbn);
 						let html = `

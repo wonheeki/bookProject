@@ -621,7 +621,7 @@ exports.mostLike = async (req, res) => {
     // console.log('---------메인좋아요!!!', mostLike);
 
     if(mostLike.length == 0) {
-        res.send('좋아요한 책이 없음')
+        res.send([])
     }
     else{
         const mostLikeIsbn = mostLike.map(liked => liked.b_isbn);
@@ -673,7 +673,7 @@ exports.get_mostComments = async (req,res)=>{
 	  });
   
 	  if(!mostComment) {
-		  res.send('댓글을 단 책이 없음')
+		  res.send([])
 	  }
 	  else{
 		  const mostCommentIsbn = mostComment.map(Comment => Comment.c_isbn);

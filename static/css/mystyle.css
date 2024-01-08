@@ -251,9 +251,8 @@ li {
 
 
 footer {
-	height: 250px;
+	height: 17vw;
 	border-top: solid 1px #cccccc;
-	margin-top: 70px;
 }
 #footer_menu {
 	padding: 20px;
@@ -262,12 +261,19 @@ footer {
 	display: inline;
 }
 .footers {
-	margin-top: 30px;
+	margin-top: 4vw;
 	margin-left: 20px;
 	margin-right: 80px;
 	float: left;
 }
+.footers img{
+	margin-bottom: 20px;
+    filter: invert(1);
+    height: 3vw;
+	margin-left: calc((100vw - ((17vw * 5) + (10px * 10))) / 2);
+}
 .footers li {
+	margin-left: calc((100vw - ((17vw * 5) + (10px * 10))) / 2);
 	margin-top: 8px;
 	font-size: 12px;
 }
